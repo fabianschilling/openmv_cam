@@ -1,0 +1,13 @@
+<launch>
+
+    <arg name="device" default="/dev/ttyACM0" />
+    <arg name="topic" default="openmv_cam/image_raw" />
+    <arg name="compressed" default="false" />
+
+    <node pkg="openmv_cam" name="openmv_cam" type="openmv_cam.py" output="screen">
+        <param name="device" value="$(arg device)" />
+        <param name="topic" value="$(arg topic)" />
+        <param name="compressed" value="$(arg compressed)" />
+    </node>
+
+</launch>
