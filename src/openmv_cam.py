@@ -52,6 +52,7 @@ class OpenMVCam:
 
         self.publisher = rospy.Publisher(self.topic, self.image_type,
                                          queue_size=1)
+        self.seq = 0
 
         # Important: reset buffers for reliabile restarts of this node!
         self.port.reset_input_buffer()
@@ -80,11 +81,16 @@ class OpenMVCam:
 
         # Convert numpy image to (commpressed) ROS image message
         if self.compressed:
-            ros_image = self.bridge.cv2_to_compressed_imgmsg(image)
+            image_msg = self.bridge.cv2_to_compressed_imgmsg(image)
         else:
-            ros_image = self.bridge.cv2_to_imgmsg(image, encoding=encoding)
+            image_msg = self.bridge.cv2_to_imgmsg(image, encoding=encoding)
 
-        self.publisher.publish(ros_image)
+        # Add timestamp and sequence number (empty by default)
+        image_msg.header.stamp = rospy.Time.now()
+        image_msg.header.seq = self.seq
+        self.seq += 1
+
+        self.publisher.publish(image_msg)
 
 
 def main():
