@@ -18,7 +18,7 @@ roslaunch openmv_cam openmv_cam.launch
 By default, the node uses the following parameters:
 
 ```sh
-roslaunch openmv_cam openmv_cam.launch device:=/dev/ttyACM0 topic:=/openmv_cam/image_raw compressed:=false
+roslaunch openmv_cam openmv_cam.launch device:=/dev/ttyACM0 topic:=openmv_cam/camera_main/image_raw compressed:=false
 ```
 
 ## License
