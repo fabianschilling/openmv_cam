@@ -1,0 +1,93 @@
+<?xml version="1.0"?>
+
+<robot xmlns:xacro="http://ros.org/wiki/xacro">
+
+  <xacro:property name="openmv_distortion_k1" value="-0.239734" />
+  <xacro:property name="openmv_distortion_k2" value="0.038031" />
+  <xacro:property name="openmv_distortion_p1" value="-0.000468" />
+  <xacro:property name="openmv_distortion_p2" value="-0.001565" />
+  <xacro:property name="openmv_distortion_k3" value="0" />
+
+  <!-- Macro to add an OpenMV camera. -->
+  <xacro:macro name="openmv_cam_macro"
+    params="namespace parent_link camera_suffix frame_rate
+      horizontal_fov image_width image_height image_format min_distance
+      max_distance noise_mean noise_stddev enable_visual enable_collision visualize_fov *origin">
+    <link name="${namespace}/camera_${camera_suffix}_link">
+      <xacro:if value="${enable_collision}">
+        <collision>
+          <origin xyz="-0.017 0 -0.013" rpy="0 0 0" />
+          <geometry>
+            <!-- <mesh filename="model://openmv_cam/meshes/model.dae" /> -->
+            <box size="0.035 0.035 0.048" />
+          </geometry>
+        </collision>
+      </xacro:if>
+      <xacro:if value="${enable_visual}">
+        <visual>
+          <origin xyz="0 0 0" rpy="0 0 0" />
+          <geometry>
+            <mesh filename="model://openmv_cam/meshes/model.dae" />
+          </geometry>
+        </visual>
+      </xacro:if>
+    </link>
+    <joint name="${namespace}/camera_${camera_suffix}_joint" type="fixed">
+      <xacro:insert_block name="origin" />
+      <parent link="${parent_link}" />
+      <child link="${namespace}/camera_${camera_suffix}_link" />
+    </joint>
+    <gazebo reference="${namespace}/camera_${camera_suffix}_link">
+      <sensor type="camera" name="${namespace}_camera_${camera_suffix}">
+        <xacro:if value="${visualize_fov}">
+          <visualize>true</visualize>
+        </xacro:if>
+        <update_rate>${frame_rate}</update_rate>
+        <camera name="head">
+          <horizontal_fov>${horizontal_fov}</horizontal_fov>
+          <image>
+            <width>${image_width}</width>
+            <height>${image_height}</height>
+            <format>${image_format}</format>
+          </image>
+          <clip>
+            <near>${min_distance}</near>
+            <far>${max_distance}</far>
+          </clip>
+          <noise>
+            <type>gaussian</type>
+            <mean>${noise_mean}</mean>
+            <stddev>${noise_stddev}</stddev>
+          </noise>
+          <distortion>
+            <k1>${openmv_distortion_k1}</k1>
+            <k2>${openmv_distortion_k2}</k2>
+            <p1>${openmv_distortion_p1}</p1>
+            <p2>${openmv_distortion_p2}</p2>
+            <k3>${openmv_distortion_k3}</k3>
+            <center>0.5 0.5</center>
+          </distortion>
+        </camera>
+        <plugin name="${namespace}_camera_${camera_suffix}_controller" filename="libgazebo_ros_camera.so">
+          <robotNamespace>${namespace}</robotNamespace>
+          <alwaysOn>true</alwaysOn>
+          <updateRate>${frame_rate}</updateRate>
+          <cameraName>camera_${camera_suffix}</cameraName>
+          <imageTopicName>image_raw</imageTopicName>
+          <cameraInfoTopicName>camera_info</cameraInfoTopicName>
+          <frameName>camera_${camera_suffix}_link</frameName>
+          <hackBaseline>0.0</hackBaseline>
+          <distortionK1>${openmv_distortion_k1}</distortionK1>
+          <distortionK2>${openmv_distortion_k2}</distortionK2>
+          <distortionT1>${openmv_distortion_p1}</distortionT1>
+          <distortionT2>${openmv_distortion_p2}</distortionT2>
+          <distortionK3>${openmv_distortion_k3}</distortionK3>
+        </plugin>
+      </sensor>
+    </gazebo>
+    <gazebo reference="${namespace}/camera_${camera_suffix}_link">
+      <material>Gazebo/DarkGrey</material>
+    </gazebo>
+  </xacro:macro>
+
+</robot>

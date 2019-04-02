@@ -17,7 +17,7 @@ class OpenMVCamNode:
         rospy.init_node('openmv_cam_node', argv=sys.argv)
 
         self.device = rospy.get_param('~device', default='/dev/ttyACM0')
-        self.topic = rospy.get_param('~topic', default='openmv_cam/image_raw')
+        self.topic = rospy.get_param('~topic', default='openmv_cam/camera_main/image_raw')
         self.compressed = rospy.get_param('~compressed', default=False)
 
         self.image_type = Image
