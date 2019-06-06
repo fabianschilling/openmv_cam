@@ -73,7 +73,7 @@ def main():
 
     while not rospy.is_shutdown():
         try:
-            openmv_cam_node.read_and_publish_image()
+        openmv_cam_node.read_and_publish_image()
         except Exception:
             pass  # Fail silently
 
