@@ -4,5 +4,6 @@ project(openmv_cam)
 find_package(catkin REQUIRED COMPONENTS
   rospy
   sensor_msgs
+  camera_info_manager_py
 )
 catkin_package()
