@@ -1,0 +1,20 @@
+image_width: 640
+image_height: 480
+camera_name: openmv_cam
+camera_matrix:
+  rows: 3
+  cols: 3
+  data: [310.972567, 0.000000, 303.367043, 0.000000, 310.814521, 243.740164, 0.000000, 0.000000, 1.000000]
+distortion_model: plumb_bob
+distortion_coefficients:
+  rows: 1
+  cols: 5
+  data: [-0.233706, 0.034651, 0.000907, -0.000318, 0.000000]
+rectification_matrix:
+  rows: 3
+  cols: 3
+  data: [1.000000, 0.000000, 0.000000, 0.000000, 1.000000, 0.000000, 0.000000, 0.000000, 1.000000]
+projection_matrix:
+  rows: 3
+  cols: 4
+  data: [207.540390, 0.000000, 304.454356, 0.000000, 0.000000, 254.572647, 247.075134, 0.000000, 0.000000, 0.000000, 1.000000, 0.000000]
