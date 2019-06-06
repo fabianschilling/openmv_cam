@@ -1,7 +1,6 @@
 #!/usr/bin/env python
 """Publishes OpenMV Cam images as ROS messages."""
 
-import os
 import sys
 
 import rospy
@@ -25,21 +24,16 @@ class OpenMVCamNode:
         self.device = rospy.get_param('~device', '/dev/ttyACM0')
         self.image_topic = rospy.get_param('~image', DEFAULT_IMAGE_TOPIC)
         self.camera_topic = rospy.get_param('~camera', DEFAULT_CAMERA_TOPIC)
-        self.calibration = rospy.get_param('~calibration', None)
+        self.calibration = rospy.get_param('~calibration', '')
 
-        if not os.path.exists(self.calibration):
-            rospy.logerr('Calibration not found: {}'.format(self.calibration))
-            exit()
-
-        url = 'file://' + self.calibration
-        self.manager = CameraInfoManager(cname=CAMERA_NAME, url=url,
+        self.manager = CameraInfoManager(cname=CAMERA_NAME,
+                                         url='file://' + self.calibration,
                                          namespace=CAMERA_NAME)
 
-        self.manager.loadCameraInfo()
-        self.camera_info = self.manager.camera_info
+        self.manager.loadCameraInfo()  # Needs to be called before getter!
+        self.camera_info = self.manager.getCameraInfo()
 
         self.openmv_cam = OpenMVCam(self.device)
-
         self.bridge = CvBridge()
 
         self.image_publisher = rospy.Publisher(self.image_topic, Image,
