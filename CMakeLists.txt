@@ -4,6 +4,7 @@ project(openmv_cam)
 find_package(catkin REQUIRED COMPONENTS
   camera_info_manager_py
   cv_bridge
+  rospkg
   rospy
   sensor_msgs
 )
