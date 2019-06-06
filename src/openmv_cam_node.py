@@ -4,11 +4,10 @@
 import os
 import sys
 
-import rospkg
 import rospy
 from camera_info_manager import CameraInfoManager
 from cv_bridge import CvBridge
-from sensor_msgs.msg import CameraInfo, CompressedImage, Image
+from sensor_msgs.msg import CameraInfo, Image
 
 from openmv_cam import OpenMVCam
 
@@ -26,7 +25,6 @@ class OpenMVCamNode:
         self.device = rospy.get_param('~device', '/dev/ttyACM0')
         self.image_topic = rospy.get_param('~image', DEFAULT_IMAGE_TOPIC)
         self.camera_topic = rospy.get_param('~camera', DEFAULT_CAMERA_TOPIC)
-        self.compressed = rospy.get_param('~compressed', False)
         self.calibration = rospy.get_param('~calibration', None)
 
         if not os.path.exists(self.calibration):
@@ -40,20 +38,13 @@ class OpenMVCamNode:
         self.manager.loadCameraInfo()
         self.camera_info = self.manager.camera_info
 
-        self.image_type = Image
-        if self.compressed:
-            self.topic += '/compressed'
-            self.image_type = CompressedImage
-
         self.openmv_cam = OpenMVCam(self.device)
 
         self.bridge = CvBridge()
 
-        self.image_publisher = rospy.Publisher(self.image_topic,
-                                               data_class=self.image_type,
+        self.image_publisher = rospy.Publisher(self.image_topic, Image,
                                                queue_size=1)
-        self.camera_publisher = rospy.Publisher(self.camera_topic,
-                                                data_class=CameraInfo,
+        self.camera_publisher = rospy.Publisher(self.camera_topic, CameraInfo,
                                                 queue_size=1)
         self.seq = 0
 
@@ -70,11 +61,8 @@ class OpenMVCamNode:
         if channels == 3:
             image = image[..., ::-1]
 
-        # Convert numpy image to (commpressed) ROS image message
-        if self.compressed:
-            image_msg = self.bridge.cv2_to_compressed_imgmsg(image)
-        else:
-            image_msg = self.bridge.cv2_to_imgmsg(image, encoding=encoding)
+        # Convert numpy image to ROS image message
+        image_msg = self.bridge.cv2_to_imgmsg(image, encoding=encoding)
 
         # Add timestamp and sequence number (empty by default)
         image_msg.header.stamp = rospy.Time.now()
@@ -82,7 +70,7 @@ class OpenMVCamNode:
 
         self.image_publisher.publish(image_msg)
         camera_msg = self.camera_info
-        camera_msg.header = image_msg.header
+        camera_msg.header = image_msg.header  # Copy header from image message
         self.camera_publisher.publish(camera_msg)
 
         if self.seq == 0:

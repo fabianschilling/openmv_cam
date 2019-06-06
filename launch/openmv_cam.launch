@@ -3,14 +3,12 @@
     <arg name="device" default="/dev/ttyACM0" />
     <arg name="image" default="openmv_cam/image_raw" />
     <arg name="camera" default="openmv_cam/camera_info" />
-    <arg name="compressed" default="false" />
     <arg name="calibration" default="$(find openmv_cam)/calib/standard_lens.yaml" />
 
     <node pkg="openmv_cam" name="openmv_cam" type="openmv_cam_node.py" output="screen">
         <param name="device" value="$(arg device)" />
         <param name="image" value="$(arg image)" />
         <param name="camera" value="$(arg camera)" />
-        <param name="compressed" value="$(arg compressed)" />
         <param name="calibration" value="$(arg calibration)" />
     </node>
 
