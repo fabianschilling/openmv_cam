@@ -12,8 +12,8 @@ from sensor_msgs.msg import CameraInfo, Image
 from openmv_cam import OpenMVCam
 
 CAMERA_NAME = 'openmv_cam'
-DEFAULT_IMAGE_TOPIC = '{}/image_raw'.format(CAMERA_NAME)
-DEFAULT_CAMERA_TOPIC = '{}/camera_info'.format(CAMERA_NAME)
+DEFAULT_IMAGE_TOPIC = 'image_raw'
+DEFAULT_CAMERA_TOPIC = 'camera_info'
 
 
 class OpenMVCamNode:
