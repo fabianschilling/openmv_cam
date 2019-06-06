@@ -6,13 +6,16 @@
     <arg name="calibration" default="$(find openmv_cam)/calib/standard_lens.yaml" />
 
     <group ns="openmv_cam">
+
         <node pkg="openmv_cam" name="openmv_cam" type="openmv_cam_node.py" output="screen">
             <param name="device" value="$(arg device)" />
             <param name="image" value="$(arg image)" />
             <param name="camera" value="$(arg camera)" />
             <param name="calibration" value="$(arg calibration)" />
         </node>
+
         <node pkg="image_proc" name="image_proc" type="image_proc" />
+
     </group>
 
 </launch>
