@@ -18,7 +18,7 @@ usb_vcp.setinterrupt(-1)
 
 sensor.reset()
 sensor.set_pixformat(sensor.RGB565)
-sensor.set_framesize(sensor.QVGA)
+sensor.set_framesize(sensor.VGA)
 sensor.skip_frames(time=2000)  # wait for settings to take effect!
 
 while True:
