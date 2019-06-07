@@ -13,7 +13,6 @@
   <run_depend>camera_info_manager_py</run_depend>
   <run_depend>cv_bridge</run_depend>
   <run_depend>image_proc</run_depend>
-  <run_depend>rospkg</run_depend>
   <run_depend>rospy</run_depend>
   <run_depend>sensor_msgs</run_depend>
 
