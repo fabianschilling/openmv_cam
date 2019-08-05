@@ -4,6 +4,11 @@ This package provides an interface between the [OpenMV Cam](https://openmv.io/) 
 
 Images are acquired by the camera and sent via USB to the ROS node which relays them as ROS image messages.
 
+## Resolving Dependencies
+
+To resolve the dependencies with camera_info_manager_py, run:
+rosdep install --from-paths /path/to/your/catkin_ws/src --ignore-src
+
 ## Getting started
 
 Connect the camera and copy the [main.py](util/main.py) file, either using the [OpenMV IDE](https://openmv.io/pages/download) or directly using the mounted storage device.
