@@ -46,7 +46,9 @@ class OpenMVCam:
         """
 
         # Sending 'snap' command causes camera to take snapshot
-        self.port.write('snap')
+        # For python3(Noetic), change the below line to self.port.write('snap'.encode('utf-8'))
+        # For python2, self.port.write('snap')
+        self.port.write('snap'.encode('utf-8'))
         self.port.flush()
 
         # Read 'size' bytes from serial port
