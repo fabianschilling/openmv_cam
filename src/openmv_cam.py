@@ -6,6 +6,7 @@ Source:
 
 import io
 import struct
+import sys
 
 import numpy as np
 import serial
@@ -46,7 +47,11 @@ class OpenMVCam:
         """
 
         # Sending 'snap' command causes camera to take snapshot
-        self.port.write('snap')
+        # For Python 3 (ROS Noetic and later), encode the 'snap' string as UTF-8
+        snap = 'snap'
+        if sys.version_info[0] >= 3:
+            snap = snap.encode('utf-8')
+        self.port.write(snap)
         self.port.flush()
 
         # Read 'size' bytes from serial port

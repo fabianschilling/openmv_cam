@@ -12,6 +12,9 @@ To resolve the dependencies run:
 rosdep install --from-paths /path/to/your/catkin_ws/src --ignore-src
 ```
 
+**Note**:
+For ROS Noetic and later, the [`camera_info_manager_py`](https://github.com/ros-perception/camera_info_manager_py) package is not available via `apt-get` and has to be built from source.
+
 ## Getting started
 
 Connect the camera and copy the [main.py](util/main.py) file, either using the [OpenMV IDE](https://openmv.io/pages/download) or directly using the mounted storage device.
