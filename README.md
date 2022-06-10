@@ -13,7 +13,7 @@ rosdep install --from-paths /path/to/your/catkin_ws/src --ignore-src
 ```
 
 **Note**:
-For ROS Noetic, since the `camera_info_manager_py` is not available from apt manager, build the [camera_info_manager_py package](https://github.com/ros-perception/camera_info_manager_py) from source
+For ROS Noetic and later, the [`camera_info_manager_py`](https://github.com/ros-perception/camera_info_manager_py) package is not available via `apt-get` and has to be built from source.
 
 ## Getting started
 
